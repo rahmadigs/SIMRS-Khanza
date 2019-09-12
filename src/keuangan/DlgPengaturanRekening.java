@@ -3,7 +3,7 @@ import fungsi.WarnaTable;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
-import fungsi.var;
+import fungsi.akses;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -112,7 +112,7 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(var.getform().equals("DlgPengaturanRekening")){
+                if(akses.getform().equals("DlgPengaturanRekening")){
                     if(rekening.getTabel().getSelectedRow()!= -1){    
                         if(tbPengaturan.getSelectedColumn()==1){
                             tabMode.setValueAt(rekening.getTabel().getValueAt(rekening.getTabel().getSelectedRow(),1).toString(),tbPengaturan.getSelectedRow(),1);
@@ -139,7 +139,7 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
             public void keyTyped(KeyEvent e) {}
             @Override
             public void keyPressed(KeyEvent e) {
-                if(var.getform().equals("DlgPengaturanRekening")){
+                if(akses.getform().equals("DlgPengaturanRekening")){
                     if(e.getKeyCode()==KeyEvent.VK_SPACE){
                         rekening.dispose();
                     }
@@ -163,11 +163,12 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
     private void initComponents() {
 
         internalFrame1 = new widget.InternalFrame();
-        Scroll = new widget.ScrollPane();
-        tbPengaturan = new widget.Table();
         panelGlass8 = new widget.panelisi();
         BtnSimpan = new widget.Button();
         BtnKeluar = new widget.Button();
+        TabRawat = new javax.swing.JTabbedPane();
+        Scroll = new widget.ScrollPane();
+        tbPengaturan = new widget.Table();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -178,23 +179,9 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Pengaturan Rekening ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Pengaturan Rekening ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
-
-        Scroll.setName("Scroll"); // NOI18N
-        Scroll.setOpaque(true);
-
-        tbPengaturan.setToolTipText("Semua akun harus terisi");
-        tbPengaturan.setName("tbPengaturan"); // NOI18N
-        tbPengaturan.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tbPengaturanKeyPressed(evt);
-            }
-        });
-        Scroll.setViewportView(tbPengaturan);
-
-        internalFrame1.add(Scroll, java.awt.BorderLayout.CENTER);
 
         panelGlass8.setName("panelGlass8"); // NOI18N
         panelGlass8.setPreferredSize(new java.awt.Dimension(44, 56));
@@ -237,6 +224,33 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
         BtnKeluar.setBounds(109, 10, 100, 30);
 
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_END);
+
+        TabRawat.setBackground(new java.awt.Color(255, 255, 253));
+        TabRawat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 246, 236)));
+        TabRawat.setForeground(new java.awt.Color(50, 50, 50));
+        TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        TabRawat.setName("TabRawat"); // NOI18N
+        TabRawat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabRawatMouseClicked(evt);
+            }
+        });
+
+        Scroll.setName("Scroll"); // NOI18N
+        Scroll.setOpaque(true);
+
+        tbPengaturan.setToolTipText("Semua akun harus terisi");
+        tbPengaturan.setName("tbPengaturan"); // NOI18N
+        tbPengaturan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbPengaturanKeyPressed(evt);
+            }
+        });
+        Scroll.setViewportView(tbPengaturan);
+
+        TabRawat.addTab("Pengaturan Umum", Scroll);
+
+        internalFrame1.add(TabRawat, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
 
@@ -488,7 +502,7 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
     private void tbPengaturanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbPengaturanKeyPressed
         if(tabMode.getRowCount()!=0){
             if(evt.getKeyCode()==KeyEvent.VK_SPACE){
-                var.setform("DlgPengaturanRekening");
+                akses.setform("DlgPengaturanRekening");
                 rekening.emptTeks();
                 rekening.tampil();
                 rekening.isCek();
@@ -501,6 +515,14 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_tbPengaturanKeyPressed
+
+    private void TabRawatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabRawatMouseClicked
+        if(TabRawat.getSelectedIndex()==0){
+            tampil();
+        }else if(TabRawat.getSelectedIndex()==1){
+            
+        }
+    }//GEN-LAST:event_TabRawatMouseClicked
 
     /**
     * @param args the command line arguments
@@ -522,6 +544,7 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnSimpan;
     private widget.ScrollPane Scroll;
+    private javax.swing.JTabbedPane TabRawat;
     private widget.InternalFrame internalFrame1;
     private widget.panelisi panelGlass8;
     private widget.Table tbPengaturan;
@@ -1404,7 +1427,7 @@ public class DlgPengaturanRekening extends javax.swing.JDialog {
     }
 
     public void isCek(){
-        BtnSimpan.setEnabled(var.getpengaturan_rekening());
+        BtnSimpan.setEnabled(akses.getpengaturan_rekening());
     }
         
     
